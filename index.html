@@ -47,11 +47,13 @@
           console.log(e);
           document.getElementById("loading").style.display = 'none';
           document.getElementById("not_logged_in").style.display = null;
+          window.history.replaceState({}, document.title, "/");
           return;
         }
         
         document.getElementById("loading").style.display = 'none';
         document.getElementById("logged_in").style.display = null;
+        window.history.replaceState({}, document.title, "/");
         return;
       }
       
