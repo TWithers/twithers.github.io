@@ -34,9 +34,7 @@
       const isAuthenticated = await auth0Client.isAuthenticated();
       
       if (isAuthenticated) {
-        document.getElementById("loading").style.display = 'none';
-        document.getElementById("logged_in").style.display = null;
-        return;
+        return loadItUp();
       } 
       
       const query = window.location.search;
@@ -51,15 +49,25 @@
           return;
         }
         
-        document.getElementById("loading").style.display = 'none';
-        document.getElementById("logged_in").style.display = null;
         window.history.replaceState({}, document.title, "/");
-        return;
+        return loadItUp();
       }
       
       document.getElementById("loading").style.display = 'none';
       document.getElementById("not_logged_in").style.display = null;
       return;
+    };
+    
+    const loadItUp = async () => {
+      document.getElementById("loading").style.display = 'none';
+      document.getElementById("logged_in").style.display = null;
+      document.getElementById(
+        "ipt-access-token"
+      ).innerHTML = await auth0Client.getTokenSilently();
+
+      document.getElementById("ipt-user-profile").textContent = JSON.stringify(
+        await auth0Client.getUser()
+      );
     };
     
     const login = async () => {
@@ -86,6 +94,18 @@
   <div id="logged_in">
     <h3>You are logged in!</h3>
     <button id="btn-logout" onclick="logout()">Log out</button>
+    <p>
+      You're seeing this content because you're currently
+      <strong>logged in</strong>.
+    </p>
+    <label>
+      Access token:
+      <pre id="ipt-access-token"></pre>
+    </label>
+    <label>
+      User profile:
+      <pre id="ipt-user-profile"></pre>
+    </label>
   </div>
   <div id="not_logged_in">
     <h3>You are not yet logged in!</h3>
