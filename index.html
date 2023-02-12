@@ -21,6 +21,14 @@
       alert(JSON.stringify(data));
     });
   </script>
+  <script>
+    window.onload = function() {
+      auth0Client = await auth0.createAuth0Client({
+        domain: "dev-5z14lzlpjd7meucs.us.auth0.com",
+        clientId: "zvl686e0L9ntJ6EkttXxxWIOugjYgqjT"
+      });
+    }
+  </script>
 </head>
 <body>
     <h2>SPA Authentication Sample</h2>
