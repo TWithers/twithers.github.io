@@ -22,11 +22,16 @@
     });
   </script>
   <script>
-    window.onload = function() {
+    window.onload = async function() {
       auth0Client = await auth0.createAuth0Client({
         domain: "dev-5z14lzlpjd7meucs.us.auth0.com",
         clientId: "zvl686e0L9ntJ6EkttXxxWIOugjYgqjT"
       });
+      
+      const isAuthenticated = await auth0Client.isAuthenticated();
+
+      document.getElementById("btn-logout").disabled = !isAuthenticated;
+      document.getElementById("btn-login").disabled = isAuthenticated;
     }
   </script>
 </head>
