@@ -23,15 +23,15 @@
   </script>
   <script>
     window.onload = async function() {
+      document.getElementById("logged_in").style.display = 'none';
+      document.getElementById("not_logged_in").style.display = 'none';
+      
       auth0Client = await auth0.createAuth0Client({
         domain: "dev-5z14lzlpjd7meucs.us.auth0.com",
         clientId: "zvl686e0L9ntJ6EkttXxxWIOugjYgqjT"
       });
       
       const isAuthenticated = await auth0Client.isAuthenticated();
-
-      document.getElementById("btn-logout").disabled = !isAuthenticated;
-      document.getElementById("btn-login").disabled = isAuthenticated;
     }
     
     const login = async () => {
@@ -52,9 +52,16 @@
   </script>
 </head>
 <body>
-    <h2>SPA Authentication Sample</h2>
-    <p>Welcome to our page!</p>
-    <button id="btn-login" disabled="true" onclick="login()">Log in</button>
-    <button id="btn-logout" disabled="true" onclick="logout()">Log out</button>
+  <h1>Chat It Up</h1>
+  <hr>
+  <div id="loading">Loading...</div>
+  <div id="logged_in">
+    <h3>You are logged in!</h3>
+    <button id="btn-logout" onclick="logout()">Log out</button>
+  </div>
+  <div id="not_logged_in">
+    <h3>You are not yet logged in!</h3>
+    <button id="btn-login" onclick="login()">Log in</button>
+  </div>
 </body>
 </html>
