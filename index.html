@@ -2,24 +2,17 @@
 <html>
 <head>
   <title>Pusher Test</title>
-  <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+  <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
   <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
   <script>
 
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-
-    var pusher = new Pusher('06b53f218abe91debdaf', {
-        cluster: 'mt1',
-        channelAuthorization: {
-          endpoint: "users.json"
-        }
+    const ably = new Ably.Realtime.Promise('wUx-vg.uwFsQQ:4I_4x75mAaOBD2ips4g14v9NSEI1wvilxH_zvL_Nj8I');
+    await ably.connection.once('connected');
+    const channel = ably.channels.get('quickstart');
+    await channel.subscribe('greeting', (message) => {
+      console.log('Received a greeting message in realtime: ' + message.data)
     });
 
-    var channel = pusher.subscribe('private-chat-channel');
-    channel.bind('my-event', function(data) {
-      alert(JSON.stringify(data));
-    });
   </script>
   <script>
     window.onload = async function() {
