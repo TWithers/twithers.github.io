@@ -5,8 +5,7 @@
   <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
   <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
   <script>
-    const ably = new Ably.Realtime.Promise('wUx-vg.uwFsQQ:4I_4x75mAaOBD2ips4g14v9NSEI1wvilxH_zvL_Nj8I');
-    let ablyChannel;
+    let ablyClient, ablyChannel, auth0Client;
     
     window.onload = async function() {
       document.getElementById("logged_in").style.display = 'none';
@@ -54,9 +53,9 @@
       document.getElementById("ipt-user-profile").textContent = JSON.stringify(
         await auth0Client.getUser()
       );
-      
-      await ably.connection.once('connected');
-      ablyChannel = ably.channels.get('quickstart');
+      ablyClient = new Ably.Realtime.Promise('wUx-vg.uwFsQQ:4I_4x75mAaOBD2ips4g14v9NSEI1wvilxH_zvL_Nj8I');
+      await ablyClient.connection.once('connected');
+      ablyChannel = ablyClient.channels.get('quickstart');
       await ablyChannel.subscribe('greeting', (message) => {
         console.log('Received a greeting message in realtime: ' + message.data)
       });
