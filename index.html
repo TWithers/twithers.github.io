@@ -181,7 +181,7 @@
 
             messagesRef = ref(database, 'messages');
 
-            get(query(messagesRef, limitToLast(100))).then(snapshot => {
+            get(query(messagesRef, limitToLast(5))).then(snapshot => {
                 snapshot.forEach(message => {
                     appendInitialMessages(message);
                 });
